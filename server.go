@@ -36,7 +36,7 @@ func handleNSQTailRequest(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	topic := vars["topic"]
 
-  // extract the query parameters
+	// extract the query parameters
 	query := r.URL.Query()
 
 	// list of query parameters with key 'n'
@@ -49,7 +49,7 @@ func handleNSQTailRequest(w http.ResponseWriter, r *http.Request) {
 	// flag to track if continues updates needed (f=true)
 	var f bool
 	// with err handling above, it is guaranteed to have at least one value
-	l := len(ns[0]) 
+	l := len(ns[0])
 	if l != 0 {
 		// look for 'f' flag only at the end of the parameter value
 		// ?n=100f is valid ?n=100fe is not
