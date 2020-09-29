@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-  "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -35,6 +35,5 @@ func handleNSQTailRequest(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	topic := vars["topic"]
 
-	fmt.Fprintf(w, topic + " -- All is well!")
+	fmt.Fprintf(w, topic+" -- All is well!")
 }
-
