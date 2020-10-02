@@ -4,6 +4,7 @@ import (
 	//"errors"
 	"flag"
 	"fmt"
+	"github.com/awmanoj/nsqtail/nsq"
 	"log"
 	"net/http"
 	"os"
@@ -12,15 +13,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var nsqLookupdAddr = flag.String("nsqlookupd", "127.0.0.1:4151", "NSQLookupd Address")
+var nsqLookupdAddrPtr = flag.String("nsqlookupd", "127.0.0.1:4161", "NSQLookupd Address")
+var nsqLookupdAddr string
 
 func main() {
 	port := os.Getenv("PORT")
 
 	r := mux.NewRouter()
-
-	// routes
 	r.HandleFunc("/nsqtail/{topic}", handleNSQTailRequest)
+
+	nsq.Init(*nsqLookupdAddrPtr)
 
 	// yaay!! start the server!
 	log.Printf("Starting server at port %s\n", port)
