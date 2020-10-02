@@ -15,7 +15,7 @@ type Response struct {
 	body       []byte
 }
 
-func ExecuteRequest(url string) (Response, error) {
+func ExecuteNetworkRequest(url string) (Response, error) {
 	var response Response
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

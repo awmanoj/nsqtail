@@ -11,7 +11,7 @@ var baseURL = "http://" + instantiated.nsqLookupdAddr
 
 func GetTopics() (Topics, error) {
 	var topics Topics
-	response, err := ExecuteRequest(baseURL + "/topics")
+	response, err := ExecuteNetworkRequest(baseURL + "/topics")
 	if err != nil {
 		return topics, err
 	}
