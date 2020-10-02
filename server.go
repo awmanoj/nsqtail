@@ -2,6 +2,7 @@ package main
 
 import (
 	//"errors"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +11,8 @@ import (
 
 	"github.com/gorilla/mux"
 )
+
+var nsqLookupdAddr = flag.String("nsqlookupd", "127.0.0.1:4151", "NSQLookupd Address")
 
 func main() {
 	port := os.Getenv("PORT")
