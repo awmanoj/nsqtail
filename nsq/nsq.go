@@ -7,10 +7,10 @@ import (
 	"net/http"
 )
 
-var baseURL = "http://" + instantiated.nsqLookupdAddr
-
 func GetTopics() (Topics, error) {
 	var topics Topics
+
+	var baseURL = "http://" + instantiated.nsqLookupdAddr
 	response, err := ExecuteNetworkRequest(baseURL + "/topics")
 	if err != nil {
 		return topics, err
