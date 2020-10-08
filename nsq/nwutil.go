@@ -15,9 +15,17 @@ type Response struct {
 	body       []byte
 }
 
-func ExecuteNetworkRequest(url string) (Response, error) {
+func ExecutePostNetworkRequest(url string) (Response, error) {
+	return ExecuteNetworkRequest("POST", url)
+}
+
+func ExecuteGetNetworkRequest(url string) (Response, error) {
+	return ExecuteNetworkRequest("GET", url)
+}
+
+func ExecuteNetworkRequest(method string, url string) (Response, error) {
 	var response Response
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		return response, err
 	}
