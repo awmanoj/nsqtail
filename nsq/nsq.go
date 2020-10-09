@@ -90,7 +90,7 @@ func GetTopics() (Topics, error) {
 		return topics, errors.New(fmt.Sprintf("error in the network request to lookupd %d", response.statusCode))
 	}
 
-	err = json.Unmarshal(response.body, topics)
+	err = json.Unmarshal(response.body, &topics)
 	if err != nil {
 		return topics, err
 	}

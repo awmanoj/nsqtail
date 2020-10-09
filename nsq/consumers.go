@@ -16,14 +16,14 @@ var queues = map[string]*queue.InMemoryMessageQueue{}
 func InitConsumers() {
 	topics, err := GetTopics()
 	if err != nil {
-		log.Printf("err", "problem fetching topics", err)
+		log.Printf("err problem fetching topics [%v]\n", err)
 		return
 	}
 
 	for _, topic := range topics.Topics {
 		consumer, err := initConsumer(topic, channelName)
 		if err != nil {
-			log.Println("err", err)
+			log.Printf("err initting consumer [%v]\n", err)
 			continue
 		}
 		consumers[topic] = consumer
@@ -35,6 +35,11 @@ func FetchLastNRequests(topic string, n int) ([]string, error) {
 	// Right now, only supports maxNumOfMessages requests
 	if n > MaxNumOfMessages {
 		n = MaxNumOfMessages
+	}
+
+	_, ok := queues[topic]
+	if !ok {
+		InitConsumers() // too slow?
 	}
 
 	lastNRequests := queues[topic].Snapshot()
