@@ -15,17 +15,25 @@ type Response struct {
 	body       []byte
 }
 
-func ExecutePostNetworkRequest(url string) (Response, error) {
-	return ExecuteNetworkRequest("POST", url)
+func ExecutePostNetworkRequest(URL string, args map[string]string) (Response, error) {
+	return ExecuteNetworkRequest("POST", URL, args)
 }
 
-func ExecuteGetNetworkRequest(url string) (Response, error) {
-	return ExecuteNetworkRequest("GET", url)
+func ExecuteGetNetworkRequest(URL string, args map[string]string) (Response, error) {
+	return ExecuteNetworkRequest("GET", URL, args)
 }
 
-func ExecuteNetworkRequest(method string, url string) (Response, error) {
+func ExecuteNetworkRequest(method string, URL string, args map[string]string) (Response, error) {
+	if len(args) > 0 {
+		URL += "?"
+	}
+
+	for key,value := range args {
+		URL += key + "=" + value
+	}
+
 	var response Response
-	req, err := http.NewRequest(method, url, nil)
+	req, err := http.NewRequest(method, URL, nil)
 	if err != nil {
 		return response, err
 	}
