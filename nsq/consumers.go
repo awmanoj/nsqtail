@@ -2,15 +2,16 @@ package nsq
 
 import (
 	"github.com/nsqio/go-nsq"
-	"github.com/koding/cache"
 	"log"
+
+	"github.com/awmanoj/nsqtail/queue"
 )
 
 const MaxNumOfMessages = 10
 const channelName = "nsqtail-taxicab-1729" // nsqtail-taxicab-1729 - unique enough?
 
 var consumers = map[string]*nsq.Consumer{}
-var caches = map[string]cache.Cache{}
+var queues = map[string]*queue.InMemoryMessageQueue{}
 
 func InitConsumers() {
 	topics, err := GetTopics()
@@ -26,18 +27,16 @@ func InitConsumers() {
 			continue
 		}
 		consumers[topic] = consumer
-		caches[topic] = cache.NewLRU(MaxNumOfMessages)
+		queues[topic] = queue.NewInMemoryMessageQueue(MaxNumOfMessages)
 	}
 }
 
 func FetchLastNRequests(topic string, n int) ([]string, error) {
-	var lastNRequests []string
-
 	// Right now, only supports maxNumOfMessages requests
 	if n > MaxNumOfMessages {
 		n = MaxNumOfMessages
 	}
 
+	lastNRequests := queues[topic].Snapshot()
 	return lastNRequests, nil
 }
-

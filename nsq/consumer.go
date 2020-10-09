@@ -27,7 +27,9 @@ func (h *messageHandler) HandleMessage(m *nsq.Message) error {
 }
 
 func (h *messageHandler) processMessage(body []byte) error {
-	//message := body // create a copy
+	message := string(body) // create a copy
+
+	queues[h.Topic].Enqueue(message)
 
 	return nil
 }
