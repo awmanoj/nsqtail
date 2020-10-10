@@ -6,7 +6,6 @@ import (
 	"github.com/awmanoj/nsqtail/html"
 	"github.com/awmanoj/nsqtail/nsq"
 	"github.com/gorilla/mux"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -33,6 +32,7 @@ func main() {
 	}
 }
 
+// Index page, show all topics as links
 func handleIndexRequest(w http.ResponseWriter, r *http.Request) {
 	topics, err := nsq.GetTopics()
 	if err != nil {
@@ -41,52 +41,27 @@ func handleIndexRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := html.IndexHTMLData{
+	html.IndexHTMLTemplate.Execute(w, html.IndexHTMLData{
 		NSQLookupdAddress: os.Getenv(nsq.LookupdAddrEnv),
 		Topics: topics.Topics,
-	}
-
-	tmpl, err := template.New("index").Parse(html.IndexHTML)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("err", "problem parsing template [%v]\n", err)
-		return
-	}
-
-	tmpl.Execute(w, data)
+	})
 }
 
 // fetch last 10 messages on the topic
 func handleNSQTailRequest(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, "Method is not supported", http.StatusNotFound)
-		return
-	}
-
-	n := nsq.MaxNumOfMessages
-
 	topic := mux.Vars(r)["topic"]
 
-	lastNRequests, err := nsq.FetchLastNRequests(topic, n)
+	lastNRequests, err := nsq.FetchLastNRequests(topic, nsq.MaxNumOfMessages)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("err", "problem fetching last %d requests %v\n", n, err)
+		log.Printf("err", "problem fetching last %d requests %v\n", nsq.MaxNumOfMessages, err)
 		return
 	}
 
-	data := html.TailHTMLData{
+	html.TailHTMLTemplate.Execute(w, html.TailHTMLData{
 		NSQLookupdAddress: os.Getenv(nsq.LookupdAddrEnv),
 		Topic: topic,
 		MessageCount: len(lastNRequests),
 		Messages: lastNRequests,
-	}
-
-	tmpl, err := template.New("tail").Parse(html.TailHTML)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("err", "problem parsing template [%v]\n", err)
-		return
-	}
-
-	tmpl.Execute(w, data)
+	})
 }
