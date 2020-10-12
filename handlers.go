@@ -14,7 +14,7 @@ func handleIndexRequest(w http.ResponseWriter, r *http.Request) {
 	topics, err := nsq.GetTopics()
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("err", "problem fetching topics %v\n", err)
+		log.Printf("err problem fetching topics %v\n", err)
 		return
 	}
 
@@ -31,7 +31,7 @@ func handleNSQTailRequest(w http.ResponseWriter, r *http.Request) {
 	lastNRequests, err := nsq.FetchLastNRequests(topic, nsq.MaxNumOfMessages)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("err", "problem fetching last %d requests %v\n", nsq.MaxNumOfMessages, err)
+		log.Printf("err problem fetching last %d requests %v\n", nsq.MaxNumOfMessages, err)
 		return
 	}
 
