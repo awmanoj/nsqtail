@@ -13,8 +13,6 @@ import (
 var NSQLookupdAddrPtr = flag.String("nsqlookupd", "127.0.0.1:4161", "NSQLookupd Address")
 
 func main() {
-	port := os.Getenv("PORT")
-
 	// global configuration captured via command line parameter
 	os.Setenv(nsq.LookupdAddrEnv, *NSQLookupdAddrPtr)
 
@@ -24,8 +22,8 @@ func main() {
 	InitRoutes(router)
 
 	// yaay!! start the server!
-	log.Printf("Starting server at port %s\n", port)
-	if err := http.ListenAndServe(":"+port, router); err != nil {
+	log.Printf("Starting server at port 8080\n")
+	if err := http.ListenAndServe(":8080", router); err != nil {
 		log.Fatal(err)
 	}
 }
