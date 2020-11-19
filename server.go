@@ -13,6 +13,9 @@ import (
 var NSQLookupdAddrPtr = flag.String("nsqlookupd", "127.0.0.1:4161", "NSQLookupd Address")
 
 func main() {
+	flag.Parse()
+
+	log.Println("===", os.Args)
 	// global configuration captured via command line parameter
 	os.Setenv(nsq.LookupdAddrEnv, *NSQLookupdAddrPtr)
 
