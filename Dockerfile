@@ -22,4 +22,5 @@ RUN cp /build/main .
 
 EXPOSE 8080
 
-CMD ["/dist/main"]
+ENTRYPOINT ["/dist/main"]
+
