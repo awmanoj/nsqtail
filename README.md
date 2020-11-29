@@ -48,3 +48,10 @@ WARNING: Published ports are discarded when using host network mode
 2020/11/10 11:11:34 INF    2 [answers/nsqtail-taxicab-1729] (parallels-Parallels-Virtual-Platform:4150) connecting to nsqd
 2020/11/10 11:11:34 Starting server at port 8080
 ```
+## Interface
+
+#### / (all topics) 
+<img width="1376" alt="topics" src="https://user-images.githubusercontent.com/1171470/100529898-7e0b2780-321e-11eb-8c51-62ab2ad1d99e.png">
+
+#### /nsqtail/test1 (last N messages from topic=test1) 
+<img width="1376" alt="messages" src="https://user-images.githubusercontent.com/1171470/100529895-79467380-321e-11eb-999c-2a50dd10fdf9.png">
