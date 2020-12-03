@@ -3,6 +3,13 @@
 ## Introduction 
 nsqtail helps tail upto last 10 messages on any topic in the NSQ message queue.
 
+## Docker 
+```
+$ docker pull awmanoj/nsqtail-dock:latest
+$ ... 
+$ docker run .. 
+```
+
 ## Build 
 ```
 parallels$ docker build . -t nsqtail-dock
